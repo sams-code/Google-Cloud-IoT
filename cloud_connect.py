@@ -26,13 +26,13 @@ import paho.mqtt.client as mqtt
 # Define some project-based variables to be used below. This should be the only
 # block of variables that you need to edit in order to run this script
 
-ssl_private_key_filepath = '/home/pi/demo_private.pem'
+ssl_private_key_filepath = 'rsa_private.pem'
 ssl_algorithm = 'RS256' # Either RS256 or ES256
-root_cert_filepath = '/home/pi/roots.pem'
+root_cert_filepath = 'roots.pem'
 project_id = 'astral-field-234602'
 gcp_location = 'us-centra1'
-registry_id = 'Process-Logger'
-device_id = 'pro-log'
+registry_id = 'my-reg'
+device_id = 'my-device'
 
 # end of user-variables
 
@@ -62,6 +62,9 @@ client.username_pw_set(
 def error_str(rc):
     return '{}: {}'.format(rc, mqtt.error_string(rc))
 
+def on_disconnect(unusued_client, unused_userdata, unused_flags, rc):
+    print('on_connect', error_str(rc))
+    
 def on_connect(unusued_client, unused_userdata, unused_flags, rc):
     print('on_connect', error_str(rc))
 
@@ -69,6 +72,7 @@ def on_publish(unused_client, unused_userdata, unused_mid):
     print('on_publish')
 
 client.on_connect = on_connect
+client.on_disconnect = on_disconnect
 client.on_publish = on_publish
 
 client.tls_set(ca_certs=root_cert_filepath) # Replace this with 3rd party cert if that was used when creating registry
@@ -82,7 +86,7 @@ pressure = 0
 
 #sense = SenseHat()
 
-for i in range(1, 11):
+for i in range(1, 2):   #1,11
   #cur_temp = sense.get_temperature()
   #cur_pressure = sense.get_pressure()
   #cur_humidity = sense.get_humidity()
@@ -101,7 +105,7 @@ for i in range(1, 11):
   payload = '{{ "ts": {}, "temperature": {}, "pressure": {}, "humidity": {} }}'.format(int(time.time()), temperature, pressure, humidity)
 
   # Uncomment following line when ready to publish
-#  client.publish(_MQTT_TOPIC, payload, qos=1)
+  client.publish(_MQTT_TOPIC, payload, qos=1)
 
   print("{}\n".format(payload))
 
