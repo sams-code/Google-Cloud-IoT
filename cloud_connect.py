@@ -29,9 +29,9 @@ import paho.mqtt.client as mqtt
 ssl_private_key_filepath = 'rsa_private.pem'
 ssl_algorithm = 'RS256' # Either RS256 or ES256
 root_cert_filepath = 'roots.pem'
-project_id = 'astral-field-234602'
+project_id = 'analog-period-235204'
 gcp_location = 'us-centra1'
-registry_id = 'my-reg'
+registry_id = 'my-registry'
 device_id = 'my-device'
 
 # end of user-variables
