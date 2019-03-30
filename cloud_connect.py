@@ -21,7 +21,7 @@ import datetime
 import time
 import jwt
 import paho.mqtt.client as mqtt
-
+import random
 
 # Define some project-based variables to be used below. This should be the only
 # block of variables that you need to edit in order to run this script
@@ -87,17 +87,18 @@ pressure = 0
 
 #sense = SenseHat()
 
-for i in range(1, 2):   #1,11
+#for i in range(1, 2):   #1,11
+while True:
   #cur_temp = sense.get_temperature()
   #cur_pressure = sense.get_pressure()
   #cur_humidity = sense.get_humidity()
-  cur_temp = 31
-  cur_pressure = 13
-  cur_humidity = 7
+  cur_temp = random.randint(10,55)
+  cur_pressure = random.randint(100,200)
+  cur_humidity = random.randint(30,80)
   
-  if cur_temp == temperature and cur_humidity == humidity and cur_pressure == pressure:
-    time.sleep(1)
-    continue
+  #if cur_temp == temperature and cur_humidity == humidity and cur_pressure == pressure:
+  #  time.sleep(1)
+  #  continue
 
   temperature = cur_temp
   pressure = cur_pressure
@@ -110,6 +111,6 @@ for i in range(1, 2):   #1,11
 
   print("{}\n".format(payload))
 
-  time.sleep(1)
+  time.sleep(60)
 
 client.loop_stop()
